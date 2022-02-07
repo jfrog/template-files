@@ -320,6 +320,12 @@ access:
     #intervalSecs: 60
     ## Excluded providers from metrics
     #exclude:
+  featureAdoption:
+    ## If disabled, usage metrics will NOT be collected
+    ## usage data will be written to data/access/usage/usage-metrics.log
+    #enabled: true
+    ## Interval to collect metrics
+    #intervalSecs: 60
 
   ## Skip creating default admin user on startup
   #startUpSkipDefaultAdmin: false
@@ -475,10 +481,6 @@ mc:
   idgenerator:
     ## Max connections to the database the id generator connection pool can consume
     #maxOpenConnections: 2
-
-## Integration template
-integration:
-  #enabled: false
 
 ## ROUTER TEMPLATE
 router:
@@ -637,6 +639,13 @@ router:
         #maxSizeMb: 100
         #maxAgeDays: 0
         #maxFiles: 10
+
+  ## Http client settings
+  httpclient:
+    ## Request timeout for all http requests. When a different value is configured in component's settings (for
+    ## example "Service registry (Access) request timeout"), min value between component's configured timeout and this
+    ## timeout is used
+    #requestTimeoutSecs: 30
 
   ## Add any custom environment variables to be passed to this service
   ## Environment variables starting with JF_ are not allowed, will be ignored with a warning if it is added
