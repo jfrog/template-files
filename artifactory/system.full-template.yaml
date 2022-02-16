@@ -400,6 +400,27 @@ metadata:
   tokenCache:
     #timeout: 115s
 
+## Mission control template
+mc:
+  #port: 8080
+  #enabled: false
+
+  ## Tomcat connector customization on the MC
+  tomcat:
+    ## Connector settings
+    connector:
+    #maxThreads: 50
+
+    ## Extra configuration to add to the connector
+    #extraConfig: ""
+
+  database:
+  ## Max connections to the database the main connection pool can consume
+  #maxOpenConnections: 10
+
+  idgenerator:
+  ## Max connections to the database the id generator connection pool can consume
+  #maxOpenConnections: 2
 
 ## ROUTER TEMPLATE
 router:
