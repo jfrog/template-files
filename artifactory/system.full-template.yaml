@@ -65,6 +65,7 @@ shared:
     ## Default auto generated at startup.
     #id: "art1"
 
+    ## When using IPv6 address, be sure to use the IPv6 format, incasing the address with []
     ## Default auto resolved by startup script
     #ip:
 
@@ -218,6 +219,10 @@ artifactory:
     connector:
       #maxThreads: 200
       #sendReasonPhrase: false
+
+      ## Please note the value of relaxedPathChars and relaxedQueryChars should be enclosed within single quotes as it contains special characters
+      #relaxedPathChars: '[]'
+      #relaxedQueryChars: '[]'
       ## An extra configuration to add to the Artifactory connector
       #extraConfig: ""
  
@@ -632,6 +637,12 @@ router:
       # request will be added to the request log. This may result in a performance overhead.
       #tokenIdLoggingEnabled: false
 
+      # If forwardedForLogging is enabled, then the value of the Forwarded-For header will be logged. The default
+      # header is X-Forwarded-For
+      #forwardedForLogging:
+      #  enabled: false
+      #  header: X-Forwarded-For
+
       ## Log rotation settings
       rotation:
         #compress: true
@@ -854,3 +865,91 @@ event:
     ## when true private networks (loopback, RFC1918, RFC3927, and IPV6 unique local addresses) will not be allowed as
     ## webhook targets
     #urlStrictPolicy: true
+
+### INTEGRATION TEMPLATE
+integration:
+  ## HTTP listen port
+  port: 8061
+  ## GRPC listen port
+  grpcPort: 8062
+
+  ## Profiling Related Settings
+  profiling:
+    ## Enable profiling endpoint for integration service
+    #enabled: false
+  metrics:
+    ## If true, enable metrics gathering in this service
+    #enabled: false
+    #intervalMillis: 10000
+    ## Excluded providers from metrics
+    #exclude:
+
+  ## Logging settings
+  logging:
+    ## Main log settings
+    application:
+      ## The log file path, relative to the log directory, or absolute path
+      #filePath: "integration-service.log"
+      ## The log level: error, warning, info, debug, trace
+      ## This value is configurable during runtime
+      #level: "info"
+      ## The log format: jftext, json
+      #format: "jftext"
+      ## Whether to include the caller information (runtime frame)
+      #caller: false
+      ## Whether to print the log also to stdout
+      #console: true
+      ## Log rotation settings
+      rotation:
+        #compress: true
+        #keepLastDecompressed: 1
+        #maxSizeMb: 25
+        #maxAgeDays: 365
+        #maxFiles: 10
+    ## Request log settings
+    request:
+      ## The log file path, relative to the log directory, or absolute path
+      #filePath: "integration-request.log"
+      ## Whether to print the log also to stdout
+      #console: false
+      ## Log rotation settings
+      rotation:
+        #compress: true
+        #keepLastDecompressed: 1
+        #maxSizeMb: 25
+        #maxAgeDays: 365
+        #maxFiles: 10
+    ## Metrics log settings
+    metrics:
+      ## The log file path, relative to the log directory, or absolute path
+      #filePath: "integration-metrics.log"
+      ## Whether to print the log also to stdout
+      #console: false
+      ## Log rotation settings
+      rotation:
+        #compress: true
+        #keepLastDecompressed: 1
+        #maxSizeMb: 25
+        #maxAgeDays: 365
+        #maxFiles: 10
+  eventClient:
+    request:
+      ## Request timeout for communications with Event service
+      #timeoutMillis: 5000
+  artifactoryClient:
+    request:
+      ## Request timeout for communications with Artifactory service
+      #timeoutMillis: 5000
+  gitClient:
+    request:
+      ## Request timeout for communications with Git providers
+      #timeoutMillis: 120000
+  security:
+    blacklist:
+      #timeoutMillis: 5000
+      #enabled: true
+    #includeIntegrationToken: false
+  ## Support Bundle settings
+  supportBundle:
+    ## Timeout for gathering support bundle for the integration service
+    #aggregationTimeoutMillis: 3600000
