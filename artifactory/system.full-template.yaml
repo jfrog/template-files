@@ -99,7 +99,7 @@ shared:
     #url: "jdbc:postgresql://<your db url, for example: localhost:5432>/artifactory"
     #username: artifactory
     #password: password
-    ##For Kerberos Authentication
+    #For Kerberos Authentication
     #kerberosAuth: true
 
     ## Example for mysql 
@@ -117,8 +117,8 @@ shared:
     ##url: "jdbc:oracle:thin:@<your db server url, for example: localhost:1521>:ORCL"
     ##username: artifactory
     ##password: password
-    ##For Kerberos Authentication
-    ##kerberosAuth: true
+    #For Kerberos Authentication
+    #kerberosAuth: true
 
     ## Example for mssql
     ## uncomment below to use database type
