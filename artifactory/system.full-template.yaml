@@ -175,6 +175,9 @@ shared:
         #url: "Elasticsearch url where JFrog Mission Control is installed For example, http://<ip_address>:8082"
         #username: ""
         #password: ""
+        ssl:
+          ## This is required if Elasticsearch is on TLS. Possible values are full, certificate or none
+          #verification_mode: none
   healthCheck:
     ## Minimal value allowed is 3. Less than that will be replaced with 3
     #intervalSecs: 15
