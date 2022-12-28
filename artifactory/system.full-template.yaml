@@ -14,7 +14,7 @@ configVersion: 1
 ## SHARED CONFIGURATIONS
 ## A shared section for keys across all services in this config
 shared:
-  ## Java 17 distribution to use
+  ## Java 11 distribution to use
   #javaHome: "JFROG_HOME/artifactory/app/third-party/java"
 
   ## Extra Java options to pass to the JVM. These values add to or override the defaults.
@@ -59,8 +59,6 @@ shared:
 
       ## Whether to compress the backup file
       #compress: true
-    enableJsonConsoleLogAppenders:
-      ## If true, there will be additional logs in JSON format for SaaS
 
   ## Node Settings
   node:
@@ -463,6 +461,7 @@ metadata:
 
 ## JFCONNECT TEMPLATE
 jfconnect:
+  ## Set to true if using an Enterprise Plus license
   enabled: true
   
   ## Service http port
@@ -529,9 +528,6 @@ router:
 
     ## The external port, registered in the service registry, used by external services to communicate with services in this node
     #externalPort: 8082
-
-    ## Add the ability to listen only on a specific interface for router.entrypoint.externalPort
-    #externalHost: ""
 
     ## An internal port used for internal Traefik (and Router) REST API
     #traefikApiPort: 8049
