@@ -283,6 +283,11 @@ artifactory:
     #intervalSecs: 60
     ## Excluded providers from metrics
     #exclude:
+    logging:
+      lineBreaks:
+          ## If set to true, the metrics line-endings will depend on the platform artifactory is running on
+          ## If set to false, the metrics line-endings will always follow unix style
+          #platformDependant: true
 
 
 ## ACCESS TEMPLATE
