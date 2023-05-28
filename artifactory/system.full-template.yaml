@@ -14,7 +14,7 @@ configVersion: 1
 ## SHARED CONFIGURATIONS
 ## A shared section for keys across all services in this config
 shared:
-  ## Java 11 distribution to use
+  ## Java 17 distribution to use
   #javaHome: "JFROG_HOME/artifactory/app/third-party/java"
 
   ## Extra Java options to pass to the JVM. These values add to or override the defaults.
@@ -59,6 +59,8 @@ shared:
 
       ## Whether to compress the backup file
       #compress: true
+    enableJsonConsoleLogAppenders:
+      ## If true, there will be additional logs in JSON format for SaaS
 
   ## Node Settings
   node:
@@ -173,6 +175,9 @@ shared:
         #url: "Elasticsearch url where JFrog Mission Control is installed For example, http://<ip_address>:8082"
         #username: ""
         #password: ""
+        ssl:
+          ## This is required if Elasticsearch is on TLS. Possible values are full, certificate or none
+          #verification_mode: none
   healthCheck:
     ## Minimal value allowed is 3. Less than that will be replaced with 3
     #intervalSecs: 15
@@ -278,6 +283,11 @@ artifactory:
     #intervalSecs: 60
     ## Excluded providers from metrics
     #exclude:
+    logging:
+      lineBreaks:
+          ## If set to true, the metrics line-endings will depend on the platform artifactory is running on
+          ## If set to false, the metrics line-endings will always follow unix style
+          #platformDependant: true
 
 
 ## ACCESS TEMPLATE
@@ -461,7 +471,6 @@ metadata:
 
 ## JFCONNECT TEMPLATE
 jfconnect:
-  ## Set to true if using an Enterprise Plus license
   enabled: true
   
   ## Service http port
@@ -528,6 +537,9 @@ router:
 
     ## The external port, registered in the service registry, used by external services to communicate with services in this node
     #externalPort: 8082
+
+    ## Add the ability to listen only on a specific interface for router.entrypoint.externalPort
+    #externalHost: ""
 
     ## An internal port used for internal Traefik (and Router) REST API
     #traefikApiPort: 8049
@@ -874,9 +886,9 @@ event:
 ### INTEGRATION TEMPLATE
 integration:
   ## HTTP listen port
-  port: 8061
+  #port: 8071
   ## GRPC listen port
-  grpcPort: 8062
+  #grpcPort: 8072
 
   ## Profiling Related Settings
   profiling:
