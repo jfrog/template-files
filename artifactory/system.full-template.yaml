@@ -300,9 +300,6 @@ access:
   grpc:
     #port: 8045
 
-  ## Access permissions can be switched to v1 / v2
-  #permission: v1
-
   ## Database settings for overriding shared.database
   ## Same format as under shared.database. Default embedded database is derby
   database:
@@ -889,9 +886,9 @@ event:
 ### INTEGRATION TEMPLATE
 integration:
   ## HTTP listen port
-  #port: 8071
+  port: 8061
   ## GRPC listen port
-  #grpcPort: 8072
+  grpcPort: 8062
 
   ## Profiling Related Settings
   profiling:
