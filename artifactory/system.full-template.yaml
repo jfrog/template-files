@@ -886,9 +886,9 @@ event:
 ### INTEGRATION TEMPLATE
 integration:
   ## HTTP listen port
-  port: 8061
+  #port: 8071
   ## GRPC listen port
-  grpcPort: 8062
+  #grpcPort: 8072
 
   ## Profiling Related Settings
   profiling:
