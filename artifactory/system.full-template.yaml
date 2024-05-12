@@ -92,6 +92,9 @@ shared:
 
   ## Database Configuration
   database:
+    ## To run Artifactory with any database other than PostgreSQL allowNonPostgresql set to true.
+    #allowNonPostgresql: false
+
     ## One of mysql, oracle, mssql, postgresql, mariadb
     ## Default Embedded derby
 
@@ -301,9 +304,6 @@ access:
     #port: 8045
     ## grpc max inbound metadata size (in bytes), default value is 8KB
     #maxInboundMetadataSize: 8192
-
-  ## Access permissions can be switched to v1 / v2
-  #permission: v1
 
   ## Database settings for overriding shared.database
   ## Same format as under shared.database. Default embedded database is derby
@@ -568,7 +568,6 @@ router:
   topology:
     ## Local topology settings
     local:
-      ## On replicator enabled - requiredServiceTypes will be "jfrt,jfac,jfmd,jffe,jfevt,jfxfer,jfob"
       #requiredServiceTypes: "jfrt,jfac,jfmd,jffe,jfevt,jfob"
 
       ## Settings for checking the health of the local services
@@ -690,51 +689,6 @@ router:
   retry:
     ## Enable retry sending request in case of network error
     #enabled: true
-
-## REPLICATOR TEMPLATE
-replicator:
-  ## Set to true if using an Enterprise Plus license
-  #enabled: false
-  #port: 8048
-
-  ## Logging settings
-  logging:
-    application:
-      #level: info
-    traffic:
-      #maxFileSizeMb: 25
-      #maxFiles: 10
-      ## Set rotationIntervalSecs to a positive number to enable rotation by time, as well as by file size (maxFileSizeMb)
-      #rotationIntervalSecs: 0
-      #compress: true
-      ## If compress is true, the number of archived files to be left uncompressed
-      #keepLastDecompressed: 1
-      ## Traffic is aggregated and written to the log every intervalSecs seconds
-      #intervalSecs: 3
-      #eventsChannelSize: 1000
-
-  ## TLS settings
-  tls:
-    ## If true will allow self signed certificates for tls
-    #skipVerifyCertificate: false
-
-  profiling:
-    #port: 8041
-    #enabled: true
-    #allowedHost: "localhost"
-
-  txDir:
-    ## clean up old parts which have not been fully replicated in this time, default 1 month
-    #cleanUpAgeSecs: 2592000
-
-    ## intervals to check for old parts which haven't been replicated
-    #cleanUpIntervalSecs: 3600
-
-  ## Add any custom environment variables to be passed to this service
-  ## Environment variables starting with JF_ are not allowed, will be ignored with a warning if it is added
-  env:
-    #EXAMPLE_VAR: example-value
-    #LD_LIBRARY_PATH: /usr/lib64
 
 ### EVENT TEMPLATE
 event:
