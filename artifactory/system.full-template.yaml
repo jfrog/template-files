@@ -331,6 +331,9 @@ access:
       ## Extra configuration to add to the Access connector
       ## For example, extraConfig:"acceptCount='30' compression='off' connectionLinger='-1' connectionTimeout='1500000' acceptorThreadCount='2'"
       #extraConfig: ""
+  
+  ## Extra Java options to pass to the JVM. These values add to or override the defaults.
+  #extraJavaOpts: "-XX:InitialRAMPercentage=20 -XX:MaxRAMPercentage=25"
 
   ## Add any custom environment variables to be passed to this service
   ## Environment variables starting with JF_ are not allowed, will be ignored with a warning if it is added
