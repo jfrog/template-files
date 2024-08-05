@@ -92,9 +92,6 @@ shared:
 
   ## Database Configuration
   database:
-    ## To run Artifactory with any database other than PostgreSQL allowNonPostgresql set to true.
-    #allowNonPostgresql: false
-
     ## One of mysql, oracle, mssql, postgresql, mariadb
     ## Default Embedded derby
 
@@ -302,8 +299,6 @@ access:
   ## grpc port
   grpc:
     #port: 8045
-    ## grpc max inbound metadata size (in bytes), default value is 8KB
-    #maxInboundMetadataSize: 8192
 
   ## Database settings for overriding shared.database
   ## Same format as under shared.database. Default embedded database is derby
@@ -568,6 +563,7 @@ router:
   topology:
     ## Local topology settings
     local:
+      ## On replicator enabled - requiredServiceTypes will be "jfrt,jfac,jfmd,jffe,jfevt,jfxfer,jfob"
       #requiredServiceTypes: "jfrt,jfac,jfmd,jffe,jfevt,jfob"
 
       ## Settings for checking the health of the local services
@@ -689,6 +685,51 @@ router:
   retry:
     ## Enable retry sending request in case of network error
     #enabled: true
+
+## REPLICATOR TEMPLATE
+replicator:
+  ## Set to true if using an Enterprise Plus license
+  #enabled: false
+  #port: 8048
+
+  ## Logging settings
+  logging:
+    application:
+      #level: info
+    traffic:
+      #maxFileSizeMb: 25
+      #maxFiles: 10
+      ## Set rotationIntervalSecs to a positive number to enable rotation by time, as well as by file size (maxFileSizeMb)
+      #rotationIntervalSecs: 0
+      #compress: true
+      ## If compress is true, the number of archived files to be left uncompressed
+      #keepLastDecompressed: 1
+      ## Traffic is aggregated and written to the log every intervalSecs seconds
+      #intervalSecs: 3
+      #eventsChannelSize: 1000
+
+  ## TLS settings
+  tls:
+    ## If true will allow self signed certificates for tls
+    #skipVerifyCertificate: false
+
+  profiling:
+    #port: 8041
+    #enabled: true
+    #allowedHost: "localhost"
+
+  txDir:
+    ## clean up old parts which have not been fully replicated in this time, default 1 month
+    #cleanUpAgeSecs: 2592000
+
+    ## intervals to check for old parts which haven't been replicated
+    #cleanUpIntervalSecs: 3600
+
+  ## Add any custom environment variables to be passed to this service
+  ## Environment variables starting with JF_ are not allowed, will be ignored with a warning if it is added
+  env:
+    #EXAMPLE_VAR: example-value
+    #LD_LIBRARY_PATH: /usr/lib64
 
 ### EVENT TEMPLATE
 event:
@@ -841,6 +882,94 @@ event:
     ## when true private networks (loopback, RFC1918, RFC3927, and IPV6 unique local addresses) will not be allowed as
     ## webhook targets
     #urlStrictPolicy: true
+
+### INTEGRATION TEMPLATE
+integration:
+  ## HTTP listen port
+  port: 8061
+  ## GRPC listen port
+  grpcPort: 8062
+
+  ## Profiling Related Settings
+  profiling:
+    ## Enable profiling endpoint for integration service
+    #enabled: false
+  metrics:
+    ## If true, enable metrics gathering in this service
+    #enabled: false
+    #intervalMillis: 10000
+    ## Excluded providers from metrics
+    #exclude:
+
+  ## Logging settings
+  logging:
+    ## Main log settings
+    application:
+      ## The log file path, relative to the log directory, or absolute path
+      #filePath: "integration-service.log"
+      ## The log level: error, warning, info, debug, trace
+      ## This value is configurable during runtime
+      #level: "info"
+      ## The log format: jftext, json
+      #format: "jftext"
+      ## Whether to include the caller information (runtime frame)
+      #caller: false
+      ## Whether to print the log also to stdout
+      #console: true
+      ## Log rotation settings
+      rotation:
+        #compress: true
+        #keepLastDecompressed: 1
+        #maxSizeMb: 25
+        #maxAgeDays: 365
+        #maxFiles: 10
+    ## Request log settings
+    request:
+      ## The log file path, relative to the log directory, or absolute path
+      #filePath: "integration-request.log"
+      ## Whether to print the log also to stdout
+      #console: false
+      ## Log rotation settings
+      rotation:
+        #compress: true
+        #keepLastDecompressed: 1
+        #maxSizeMb: 25
+        #maxAgeDays: 365
+        #maxFiles: 10
+    ## Metrics log settings
+    metrics:
+      ## The log file path, relative to the log directory, or absolute path
+      #filePath: "integration-metrics.log"
+      ## Whether to print the log also to stdout
+      #console: false
+      ## Log rotation settings
+      rotation:
+        #compress: true
+        #keepLastDecompressed: 1
+        #maxSizeMb: 25
+        #maxAgeDays: 365
+        #maxFiles: 10
+  eventClient:
+    request:
+      ## Request timeout for communications with Event service
+      #timeoutMillis: 5000
+  artifactoryClient:
+    request:
+      ## Request timeout for communications with Artifactory service
+      #timeoutMillis: 5000
+  gitClient:
+    request:
+      ## Request timeout for communications with Git providers
+      #timeoutMillis: 120000
+  security:
+    blacklist:
+      #timeoutMillis: 5000
+      #enabled: true
+    #includeIntegrationToken: false
+  ## Support Bundle settings
+  supportBundle:
+    ## Timeout for gathering support bundle for the integration service
+    #aggregationTimeoutMillis: 3600000
 
 ## observability template
 observability:
