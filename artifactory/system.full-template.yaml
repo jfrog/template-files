@@ -270,6 +270,10 @@ artifactory:
       ## For example extraConfig: "SSLProtocol='TLSv1+TLSv1.1+TLSv1.2'"
       #extraConfig: ""
 
+      sslHostConfig:
+        ## Extra configuration for the SSLHostConfig tag.
+        ## For example extraConfig: "type='RSA'"
+        #extraConfig:
 
   ## Add any custom environment variables to be passed to this service
   ## Environment variables starting with JF_ are not allowed, will be ignored with a warning if it is added
@@ -334,6 +338,9 @@ access:
   
   ## Extra Java options to pass to the JVM. These values add to or override the defaults.
   #extraJavaOpts: "-XX:InitialRAMPercentage=20 -XX:MaxRAMPercentage=25"
+
+  ## Fallback to run the Access service on the Artifactory Tomcat instance.
+  runOnArtifactoryTomcat: false
 
   ## Add any custom environment variables to be passed to this service
   ## Environment variables starting with JF_ are not allowed, will be ignored with a warning if it is added
@@ -818,7 +825,7 @@ event:
     ## Maximum number of events that can be sent concurrently. When this threshold is reached, new events that are received are rejected.
     #maxConcurrentHandlers: 50000
 
-  ## WebHook handler settings
+  ## Predefined WebHook handler settings
   webhooks:
     ## timeout specifies a time limit for requests.
     ## The timeout includes connection time, any redirects, and reading the response body.
@@ -841,9 +848,49 @@ event:
     #retryCount: 5
     ## Time in second event service will wait between 2 retries
     #retryWaitMillis: 10000
-    ## when true private networks (loopback, RFC1918, RFC3927, and IPV6 unique local addresses) will not be allowed as
-    ## webhook targets
-    #urlStrictPolicy: true
+    ## Limits regarding webhook content definition
+    sizeLimits:
+      #headersMaxCount: 50
+      #headersMaxSizeBytes: 5120
+  ## Custom WebHook handler settings
+  customWebhooks:
+    ## timeout specifies a time limit for requests.
+    ## The timeout includes connection time, any redirects, and reading the response body.
+    ## The timer remains running after request return and will interrupt reading of the response body.
+    ## A timeout of zero means no timeout.
+    #timeoutMillis: 30000
+    ## Controls the maximum number of idle (keep-alive) connections across all hosts.
+    ## Zero means no limit
+    #maxIdleConnections: 100
+    ## If non-zero, controls the maximum idle (keep-alive) connections to keep per-host.
+    ## 0 means system default (2).
+    #maxIdleConnectionsPerHost: 100
+    ## Controls whether a client verifies the server's certificate chain and host name.
+    ## If true, TLS accepts any certificate presented by the server and any host name
+    ## in that certificate. In this mode, TLS is susceptible to man-in-the-middle attacks.
+    ## This should be used only for testing.
+    #tlsInsecure: false
+    ## Number of retry that will be done when event service is unable to send the request or when it receives an error
+    ## (>= 500) from the server. The first try count as one
+    #retryCount: 5
+    ## Time in second event service will wait between 2 retries
+    #retryWaitMillis: 10000
+    ## Limits regarding webhook content definition
+    sizeLimits:
+      #headersMaxCount: 50
+      #headersMaxSizeBytes: 5120
+      #secretsMaxCount: 50
+      #secretsMaxSizeBytes: 5120
+      #payloadMaxSizeBytes: 51200
+  ## Security settings
+  security:
+    blacklist:
+      ## When true private networks (loopback, RFC1918, RFC3927, and IPV6 unique local addresses) will not be allowed
+      ## as webhook targets (used to prevent probing the network using SSRF)
+      #enabled: true
+  ## Troubleshooting settings
+  troubleshooting:
+    #enabled: false
 
 ## observability template
 observability:
@@ -958,3 +1005,11 @@ observability:
     #joinTimeoutMins:
     ## total retries for uploading to artifactory
     #uploadRetry:
+
+## Evidence template
+evidence:
+  enabled: false
+
+## Ferderation template
+federation:
+  enabled: false
