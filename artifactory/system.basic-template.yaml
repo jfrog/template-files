@@ -11,7 +11,7 @@ configVersion: 1
 ## SHARED CONFIGURATIONS
 ## A shared section for keys across all services in this config
 shared:
-    ## Java 17 distribution to use
+    ## Java 21 distribution to use
     #javaHome: "JFROG_HOME/artifactory/app/third-party/java"
 
     ## Extra Java options to pass to the JVM. These values add to or override the defaults.
