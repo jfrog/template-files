@@ -50,6 +50,9 @@ shared:
 
   ## Database Configuration
   database:
+    ## To run Artifactory with any database other than PostgreSQL allowNonPostgresql set to true.
+    #allowNonPostgresql: false
+
     ## One of mysql, oracle, mssql, postgresql, mariadb
     ## Default Embedded derby
 
