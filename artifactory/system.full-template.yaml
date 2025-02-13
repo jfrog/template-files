@@ -14,7 +14,7 @@ configVersion: 1
 ## SHARED CONFIGURATIONS
 ## A shared section for keys across all services in this config
 shared:
-  ## Java 17 distribution to use
+  ## Java 21 distribution to use
   #javaHome: "JFROG_HOME/artifactory/app/third-party/java"
 
   ## Extra Java options to pass to the JVM. These values add to or override the defaults.
@@ -92,6 +92,9 @@ shared:
 
   ## Database Configuration
   database:
+    ## To run Artifactory with any database other than PostgreSQL allowNonPostgresql set to true.
+    #allowNonPostgresql: false
+
     ## One of mysql, oracle, mssql, postgresql, mariadb
     ## Default Embedded derby
 
@@ -267,6 +270,10 @@ artifactory:
       ## For example extraConfig: "SSLProtocol='TLSv1+TLSv1.1+TLSv1.2'"
       #extraConfig: ""
 
+      sslHostConfig:
+        ## Extra configuration for the SSLHostConfig tag.
+        ## For example extraConfig: "type='RSA'"
+        #extraConfig:
 
   ## Add any custom environment variables to be passed to this service
   ## Environment variables starting with JF_ are not allowed, will be ignored with a warning if it is added
@@ -299,9 +306,8 @@ access:
   ## grpc port
   grpc:
     #port: 8045
-
-  ## Access permissions can be switched to v1 / v2
-  #permission: v1
+    ## grpc max inbound metadata size (in bytes), default value is 8KB
+    #maxInboundMetadataSize: 8192
 
   ## Database settings for overriding shared.database
   ## Same format as under shared.database. Default embedded database is derby
@@ -329,6 +335,12 @@ access:
       ## Extra configuration to add to the Access connector
       ## For example, extraConfig:"acceptCount='30' compression='off' connectionLinger='-1' connectionTimeout='1500000' acceptorThreadCount='2'"
       #extraConfig: ""
+  
+  ## Extra Java options to pass to the JVM. These values add to or override the defaults.
+  #extraJavaOpts: "-XX:InitialRAMPercentage=20 -XX:MaxRAMPercentage=25"
+
+  ## Fallback to run the Access service on the Artifactory Tomcat instance.
+  runOnArtifactoryTomcat: false
 
   ## Add any custom environment variables to be passed to this service
   ## Environment variables starting with JF_ are not allowed, will be ignored with a warning if it is added
@@ -482,7 +494,7 @@ jfconnect:
   ## Service grpc port
   #grpcPort: 8035
 
-## Mission control template
+## MISSION CONTROL TEMPLATE
 mc:
   #port: 8080
   #enabled: false
@@ -566,7 +578,6 @@ router:
   topology:
     ## Local topology settings
     local:
-      ## On replicator enabled - requiredServiceTypes will be "jfrt,jfac,jfmd,jffe,jfevt,jfxfer,jfob"
       #requiredServiceTypes: "jfrt,jfac,jfmd,jffe,jfevt,jfob"
 
       ## Settings for checking the health of the local services
@@ -688,51 +699,6 @@ router:
   retry:
     ## Enable retry sending request in case of network error
     #enabled: true
-
-## REPLICATOR TEMPLATE
-replicator:
-  ## Set to true if using an Enterprise Plus license
-  #enabled: false
-  #port: 8048
-
-  ## Logging settings
-  logging:
-    application:
-      #level: info
-    traffic:
-      #maxFileSizeMb: 25
-      #maxFiles: 10
-      ## Set rotationIntervalSecs to a positive number to enable rotation by time, as well as by file size (maxFileSizeMb)
-      #rotationIntervalSecs: 0
-      #compress: true
-      ## If compress is true, the number of archived files to be left uncompressed
-      #keepLastDecompressed: 1
-      ## Traffic is aggregated and written to the log every intervalSecs seconds
-      #intervalSecs: 3
-      #eventsChannelSize: 1000
-
-  ## TLS settings
-  tls:
-    ## If true will allow self signed certificates for tls
-    #skipVerifyCertificate: false
-
-  profiling:
-    #port: 8041
-    #enabled: true
-    #allowedHost: "localhost"
-
-  txDir:
-    ## clean up old parts which have not been fully replicated in this time, default 1 month
-    #cleanUpAgeSecs: 2592000
-
-    ## intervals to check for old parts which haven't been replicated
-    #cleanUpIntervalSecs: 3600
-
-  ## Add any custom environment variables to be passed to this service
-  ## Environment variables starting with JF_ are not allowed, will be ignored with a warning if it is added
-  env:
-    #EXAMPLE_VAR: example-value
-    #LD_LIBRARY_PATH: /usr/lib64
 
 ### EVENT TEMPLATE
 event:
@@ -859,7 +825,7 @@ event:
     ## Maximum number of events that can be sent concurrently. When this threshold is reached, new events that are received are rejected.
     #maxConcurrentHandlers: 50000
 
-  ## WebHook handler settings
+  ## Predefined WebHook handler settings
   webhooks:
     ## timeout specifies a time limit for requests.
     ## The timeout includes connection time, any redirects, and reading the response body.
@@ -882,99 +848,51 @@ event:
     #retryCount: 5
     ## Time in second event service will wait between 2 retries
     #retryWaitMillis: 10000
-    ## when true private networks (loopback, RFC1918, RFC3927, and IPV6 unique local addresses) will not be allowed as
-    ## webhook targets
-    #urlStrictPolicy: true
-
-### INTEGRATION TEMPLATE
-integration:
-  ## HTTP listen port
-  #port: 8071
-  ## GRPC listen port
-  #grpcPort: 8072
-
-  ## Profiling Related Settings
-  profiling:
-    ## Enable profiling endpoint for integration service
-    #enabled: false
-  metrics:
-    ## If true, enable metrics gathering in this service
-    #enabled: false
-    #intervalMillis: 10000
-    ## Excluded providers from metrics
-    #exclude:
-
-  ## Logging settings
-  logging:
-    ## Main log settings
-    application:
-      ## The log file path, relative to the log directory, or absolute path
-      #filePath: "integration-service.log"
-      ## The log level: error, warning, info, debug, trace
-      ## This value is configurable during runtime
-      #level: "info"
-      ## The log format: jftext, json
-      #format: "jftext"
-      ## Whether to include the caller information (runtime frame)
-      #caller: false
-      ## Whether to print the log also to stdout
-      #console: true
-      ## Log rotation settings
-      rotation:
-        #compress: true
-        #keepLastDecompressed: 1
-        #maxSizeMb: 25
-        #maxAgeDays: 365
-        #maxFiles: 10
-    ## Request log settings
-    request:
-      ## The log file path, relative to the log directory, or absolute path
-      #filePath: "integration-request.log"
-      ## Whether to print the log also to stdout
-      #console: false
-      ## Log rotation settings
-      rotation:
-        #compress: true
-        #keepLastDecompressed: 1
-        #maxSizeMb: 25
-        #maxAgeDays: 365
-        #maxFiles: 10
-    ## Metrics log settings
-    metrics:
-      ## The log file path, relative to the log directory, or absolute path
-      #filePath: "integration-metrics.log"
-      ## Whether to print the log also to stdout
-      #console: false
-      ## Log rotation settings
-      rotation:
-        #compress: true
-        #keepLastDecompressed: 1
-        #maxSizeMb: 25
-        #maxAgeDays: 365
-        #maxFiles: 10
-  eventClient:
-    request:
-      ## Request timeout for communications with Event service
-      #timeoutMillis: 5000
-  artifactoryClient:
-    request:
-      ## Request timeout for communications with Artifactory service
-      #timeoutMillis: 5000
-  gitClient:
-    request:
-      ## Request timeout for communications with Git providers
-      #timeoutMillis: 120000
+    ## Limits regarding webhook content definition
+    sizeLimits:
+      #headersMaxCount: 50
+      #headersMaxSizeBytes: 5120
+  ## Custom WebHook handler settings
+  customWebhooks:
+    ## timeout specifies a time limit for requests.
+    ## The timeout includes connection time, any redirects, and reading the response body.
+    ## The timer remains running after request return and will interrupt reading of the response body.
+    ## A timeout of zero means no timeout.
+    #timeoutMillis: 30000
+    ## Controls the maximum number of idle (keep-alive) connections across all hosts.
+    ## Zero means no limit
+    #maxIdleConnections: 100
+    ## If non-zero, controls the maximum idle (keep-alive) connections to keep per-host.
+    ## 0 means system default (2).
+    #maxIdleConnectionsPerHost: 100
+    ## Controls whether a client verifies the server's certificate chain and host name.
+    ## If true, TLS accepts any certificate presented by the server and any host name
+    ## in that certificate. In this mode, TLS is susceptible to man-in-the-middle attacks.
+    ## This should be used only for testing.
+    #tlsInsecure: false
+    ## Number of retry that will be done when event service is unable to send the request or when it receives an error
+    ## (>= 500) from the server. The first try count as one
+    #retryCount: 5
+    ## Time in second event service will wait between 2 retries
+    #retryWaitMillis: 10000
+    ## Limits regarding webhook content definition
+    sizeLimits:
+      #headersMaxCount: 50
+      #headersMaxSizeBytes: 5120
+      #secretsMaxCount: 50
+      #secretsMaxSizeBytes: 5120
+      #payloadMaxSizeBytes: 51200
+  ## Security settings
   security:
     blacklist:
-      #timeoutMillis: 5000
+      ## When true private networks (loopback, RFC1918, RFC3927, and IPV6 unique local addresses) will not be allowed
+      ## as webhook targets (used to prevent probing the network using SSRF)
       #enabled: true
-    #includeIntegrationToken: false
-  ## Support Bundle settings
-  supportBundle:
-    ## Timeout for gathering support bundle for the integration service
-    #aggregationTimeoutMillis: 3600000
+  ## Troubleshooting settings
+  troubleshooting:
+    #enabled: false
 
-## observability template
+## OBSERVABILITY TEMPLATE
 observability:
   ## Profiling related settings
   profiling:
@@ -1087,3 +1005,17 @@ observability:
     #joinTimeoutMins:
     ## total retries for uploading to artifactory
     #uploadRetry:
+
+## EVIDENCE TEMPLATE
+evidence:
+  enabled: false
+
+## FEDERATION TEMPLATE
+federation:
+  enabled: false
+
+## ONEMODEL TEMPLATE
+onemodel:
+  enabled: true
+  ## To update any settings for apollo router configuration
+  #apolloYaml:
