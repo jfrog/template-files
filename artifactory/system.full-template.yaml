@@ -14,7 +14,7 @@ configVersion: 1
 ## SHARED CONFIGURATIONS
 ## A shared section for keys across all services in this config
 shared:
-  ## Java 21 distribution to use
+  ## Java 17 distribution to use
   #javaHome: "JFROG_HOME/artifactory/app/third-party/java"
 
   ## Extra Java options to pass to the JVM. These values add to or override the defaults.
@@ -494,7 +494,7 @@ jfconnect:
   ## Service grpc port
   #grpcPort: 8035
 
-## MISSION CONTROL TEMPLATE
+## Mission control template
 mc:
   #port: 8080
   #enabled: false
@@ -892,7 +892,7 @@ event:
   troubleshooting:
     #enabled: false
 
-## OBSERVABILITY TEMPLATE
+## observability template
 observability:
   ## Profiling related settings
   profiling:
@@ -1006,16 +1006,10 @@ observability:
     ## total retries for uploading to artifactory
     #uploadRetry:
 
-## EVIDENCE TEMPLATE
+## Evidence template
 evidence:
   enabled: false
 
-## FEDERATION TEMPLATE
+## Ferderation template
 federation:
   enabled: false
-
-## ONEMODEL TEMPLATE
-onemodel:
-  enabled: true
-  ## To update any settings for apollo router configuration
-  #apolloYaml:
