@@ -339,9 +339,6 @@ access:
   ## Extra Java options to pass to the JVM. These values add to or override the defaults.
   #extraJavaOpts: "-XX:InitialRAMPercentage=20 -XX:MaxRAMPercentage=25"
 
-  ## Fallback to run the Access service on the Artifactory Tomcat instance.
-  runOnArtifactoryTomcat: false
-
   ## Add any custom environment variables to be passed to this service
   ## Environment variables starting with JF_ are not allowed, will be ignored with a warning if it is added
   env:
@@ -1008,10 +1005,10 @@ observability:
 
 ## EVIDENCE TEMPLATE
 evidence:
-  enabled: false
+  enabled: true
 
-## FEDERATION TEMPLATE
-federation:
+## RTFS TEMPLATE
+rtfs:
   enabled: false
 
 ## ONEMODEL TEMPLATE
@@ -1019,3 +1016,7 @@ onemodel:
   enabled: true
   ## To update any settings for apollo router configuration
   #apolloYaml:
+
+## JFCONFIG TEMPLATE
+jfconfig:
+  enabled: true
