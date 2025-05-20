@@ -14,7 +14,7 @@ configVersion: 1
 ## SHARED CONFIGURATIONS
 ## A shared section for keys across all services in this config
 shared:
-  ## Java 17 distribution to use
+  ## Java 21 distribution to use
   #javaHome: "JFROG_HOME/artifactory/app/third-party/java"
 
   ## Extra Java options to pass to the JVM. These values add to or override the defaults.
@@ -339,9 +339,6 @@ access:
   ## Extra Java options to pass to the JVM. These values add to or override the defaults.
   #extraJavaOpts: "-XX:InitialRAMPercentage=20 -XX:MaxRAMPercentage=25"
 
-  ## Fallback to run the Access service on the Artifactory Tomcat instance.
-  runOnArtifactoryTomcat: false
-
   ## Add any custom environment variables to be passed to this service
   ## Environment variables starting with JF_ are not allowed, will be ignored with a warning if it is added
   env:
@@ -494,7 +491,7 @@ jfconnect:
   ## Service grpc port
   #grpcPort: 8035
 
-## Mission control template
+## MISSION CONTROL TEMPLATE
 mc:
   #port: 8080
   #enabled: false
@@ -892,7 +889,7 @@ event:
   troubleshooting:
     #enabled: false
 
-## observability template
+## OBSERVABILITY TEMPLATE
 observability:
   ## Profiling related settings
   profiling:
@@ -1006,10 +1003,20 @@ observability:
     ## total retries for uploading to artifactory
     #uploadRetry:
 
-## Evidence template
+## EVIDENCE TEMPLATE
 evidence:
+  enabled: true
+
+## RTFS TEMPLATE
+rtfs:
   enabled: false
 
-## Ferderation template
-federation:
-  enabled: false
+## ONEMODEL TEMPLATE
+onemodel:
+  enabled: true
+  ## To update any settings for apollo router configuration
+  #apolloYaml:
+
+## JFCONFIG TEMPLATE
+jfconfig:
+  enabled: true
