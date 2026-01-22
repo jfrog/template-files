@@ -104,7 +104,7 @@ shared:
     #url: "jdbc:postgresql://<your db url, for example: localhost:5432>/artifactory"
     #username: artifactory
     #password: password
-    ##For Kerberos Authentication
+    ## For Kerberos Authentication
     #kerberosAuth: true
 
     ## Example for mysql 
@@ -122,7 +122,7 @@ shared:
     ##url: "jdbc:oracle:thin:@<your db server url, for example: localhost:1521>:ORCL"
     ##username: artifactory
     ##password: password
-    ##For Kerberos Authentication
+    ## For Kerberos Authentication
     ##kerberosAuth: true
 
     ## Example for mssql
@@ -164,23 +164,6 @@ shared:
     ## If enabled is true, metrics will be collected and written to metrics or
     ## metrics_events.log files of the microservice
     enabled: true
-    ## Settings for pushing metrics to Insight
-    filebeat:
-      ## If enabled, Filebeat will be started and metrics will be pushed to Elasticsearch
-      #enabled: false
-      ## Configuration settings for log files of filebeat
-      log:
-        #enabled: false
-        ## Log level for filebeat. Possible values: debug, info, warning, or error.
-        #level: "info"
-      ## Elasticsearch details for filebeat to connect
-      elasticsearch:
-        #url: "Elasticsearch url where JFrog Mission Control is installed For example, http://<ip_address>:8082"
-        #username: ""
-        #password: ""
-        ssl:
-          ## This is required if Elasticsearch is on TLS. Possible values are full, certificate or none
-          #verification_mode: none
   healthCheck:
     ## Minimal value allowed is 3. Less than that will be replaced with 3
     #intervalSecs: 15
@@ -676,12 +659,12 @@ router:
       ## This value is configurable during runtime
       #verbose: false
 
-      # If verbose is true and tokenIdLoggingEnabled is true, then the token id of each
-      # request will be added to the request log. This may result in a performance overhead.
+      ## If verbose is true and tokenIdLoggingEnabled is true, then the token id of each
+      ## request will be added to the request log. This may result in a performance overhead.
       #tokenIdLoggingEnabled: false
 
-      # If forwardedForLogging is enabled, then the value of the Forwarded-For header will be logged. The default
-      # header is X-Forwarded-For
+      ## If forwardedForLogging is enabled, then the value of the Forwarded-For header will be logged. The default
+      ## header is X-Forwarded-For
       #forwardedForLogging:
       #  enabled: false
       #  header: X-Forwarded-For
@@ -1029,14 +1012,14 @@ rtfs:
 ## ONEMODEL TEMPLATE
 onemodel:
   enabled: true
-  ##accessClient:
-    ##joinTimeoutMillis: 360000
-    ##pingTimeoutMillis: 240000
-  ##composition:
-    ##incomingRegisterSubgraphBuffer: 10
-    ##scheduledTaskDelaySecs: 30
-    ##historyRetention:
-      ##maxArchives: 20
+  #accessClient:
+    #joinTimeoutMillis: 360000
+    #pingTimeoutMillis: 240000
+  #composition:
+    #incomingRegisterSubgraphBuffer: 10
+    #scheduledTaskDelaySecs: 30
+    #historyRetention:
+      #maxArchives: 20
   #graphql:
     #compatibilityFilterEnabled: true
     #queryCacheSize: 5
@@ -1173,3 +1156,90 @@ topology:
 ## JFCONFIG TEMPLATE
 jfconfig:
   enabled: true
+  ## Access Client Configuration
+  #accessClient:
+    #connectionTimeoutSecs: 5
+    #maxJoinRetries: 90
+    #socketTimeoutSecs: 45
+    #waitJoinMillis: 1000
+    #versionCacheExpirationSecs: 60
+    #providerCacheTimeoutSecs: 10800  # 3 hours in seconds
+    #insecure: false
+    #useSharedGrpcChannel: false
+  ## Database Configuration
+  #database:
+    #driver: org.apache.derby.jdbc.EmbeddedDriver
+    #maxOpenConnections: 100
+    #password: ""
+    #timeoutSecs: 600
+    #type: derby
+    #url: jdbc:derby:{db.home};create=true
+    #username: ""
+    #schemaName: ""
+    #migrationRetry:
+      #maxIntervalSecs: 900  # 15 minutes in seconds
+      #initialDelayMillis: 2000
+      #backoff: 1.5
+  ## gRPC Configuration
+  #grpc:
+    #maxInboundMetadataSize: 8192
+    #maxInboundMessageSize: 20000000
+    #port: 8011
+    #nettyEventLoopType: "NIO"
+    #nettyWorkerThreads: 16
+  ## Health Check Configuration
+  #healthCheck:
+    #initialDelaySecs: 15
+    #intervalSecs: 10
+  ## Port Configuration
+  #port: 8010
+  ## Router Configuration
+  #routerHost: "localhost"
+  ## Security Configuration
+  #security:
+    #exposeApplicationHeaders: false
+  ## Tomcat Configuration
+  #tomcat:
+    #config: ""
+  ## NewRelic Configuration
+  ## Note: NewRelic settings are used in docker entrypoint, listed here for reference
+  #newrelic:
+    #licenseKey: ""
+    #namespace: "devel"
+    #logLevel: "off"
+    #enabled: false
+    #environment: "devel"
+  ## Metrics Configuration
+  #metrics:
+    #enabled: false
+    #logPeriodically: true
+    #exclude: ""
+    #intervalSecs: 60
+  ## Sync (HA Sync) Configuration
+  #sync:
+    #enabled: true
+    #maximum-future-time-diff-millis: 60000  # 60 * 1000 (1 minute)
+    #channel:
+      #cache-time: 3600  # 1 hour in seconds
+      #cache-size: 100
+    #token:
+      #cache-time: 3600  # 1 hour in seconds
+      #cache-size: 3600
+  ## Auto Data Migration Configuration
+  #data:
+    #migration:
+      #auto:
+        #enabled: false
+        #intervalMins: 5
+  ## Logging Request Filter Configuration
+  #logging:
+    #requestFilter:
+      #enabled: false
+      #http:
+        #ignorePaths: ""
+        #ignoreStatusCodes: ""
+        #ignoreDurationThresholdMillis: 100
+      #grpc:
+        #ignorePaths: ""
+        #ignoreStatusCodes: ""
+        #ignoreDurationThresholdMillis: 100
