@@ -304,6 +304,14 @@ jfbus:
 platformFederation:
   enabled: false
 
+## APPTRUST TEMPLATE
+apptrust:
+  enabled: false
+
+## UNIFIED POLICY TEMPLATE
+unifiedpolicy:
+  enabled: false
+
 ## ACCESS TEMPLATE
 access:
   ## http port
@@ -1021,8 +1029,146 @@ rtfs:
 ## ONEMODEL TEMPLATE
 onemodel:
   enabled: true
+  ##accessClient:
+    ##joinTimeoutMillis: 360000
+    ##pingTimeoutMillis: 240000
+  ##composition:
+    ##incomingRegisterSubgraphBuffer: 10
+    ##scheduledTaskDelaySecs: 30
+    ##historyRetention:
+      ##maxArchives: 20
+  #graphql:
+    #compatibilityFilterEnabled: true
+    #queryCacheSize: 5
+    #queryParserTokenLimit: 50
+    #apolloRouterPort: 8073
+  #grpcPort: 8072
+  #healthCheck:
+    #intervalSecs: 15
+    #apolloHealthCheckPort: 8074
+  #logging:
+    #application:
+      #console: true
+      #format: jftext
+      #level: info
+      #rotation:
+        #compress: true
+        #keepLastDecompressed: 1
+        #maxAgeDays: 365
+        #maxFiles: 10
+        #maxSizeMb: 25
+        #intervalSecs: 86400
+    #consoleLog:
+      #format: jftext
+    #metrics:
+      #console: false
+      #rotation:
+        #compress: true
+        #keepLastDecompressed: 1
+        #maxAgeDays: 365
+        #maxFiles: 10
+        #maxSizeMb: 25
+        #intervalSecs: 86400
+    #request:
+      #console: false
+      #rotation:
+        #compress: true
+        #keepLastDecompressed: 1
+        #maxAgeDays: 365
+        #maxFiles: 10
+        #maxSizeMb: 25
+        #intervalSecs: 86400
+  #supportBundle:
+    #nodeBundleAggregationTimeoutMillis: 30000
+    #serviceBundleAggregationTimeoutMillis: 300000
+  #metrics:
+    #enabled: false
+  #port: 8071
+  #probes:
+    #liveness:
+      #failOnLongFailingReadiness:
+        #enabled: true
+        #failureDurationSecs: 60
+  #storage:
+    #maxRecordsPerOwner: 10
+    #supergraphsRetentionDays: 365
   ## To update any settings for apollo router configuration
   #apolloYaml:
+
+## TOPOLOGY TEMPLATE
+topology:
+  enabled: true
+  ## Access Client Configuration
+  #accessClient:
+    #connectionTimeoutSecs: 5
+    #maxJoinRetries: 90
+    #socketTimeoutSecs: 45
+    #waitJoinMillis: 1000
+    #cache:
+      #tokens:
+        #size: 1000
+        #expirySecs: 120
+    #versionCacheExpirationSecs: 120
+    #providerCacheTimeoutSecs: 10800  # 3 hours in seconds
+    #insecure: false
+  ## Database Configuration
+  #database:
+    #driver: org.apache.derby.jdbc.EmbeddedDriver
+    #maxOpenConnections: 100
+    #password: ""
+    #timeoutSecs: 600
+    #type: derby
+    #url: jdbc:derby:{db.home};create=true
+    #username: ""
+    #maxWait: 30000  # connection timeout in milliseconds
+    #migrationRetry:
+      #maxIntervalSecs: 900  # 15 minutes in seconds
+      #initialDelayMillis: 2000
+      #backoff: 1.5
+    #metrics:
+      #enabled: false
+  ## gRPC Configuration
+  #grpc:
+    #maxInboundMetadataSize: 8192
+    #port: 8021
+  ## Health Check Configuration
+  #healthCheck:
+    #initialDelaySecs: 15
+    #intervalSecs: 10
+    #tenantCacheExpirationSecs: 30
+  ## Port Configuration
+  #port: 8020
+  ## Security Configuration
+  #security:
+    #exposeApplicationHeaders: false
+  ## Tomcat Configuration
+  #tomcat:
+    #config: ""
+  ## Cleanup Configuration
+  #cleanup:
+    #staleNodeThresholdSecs: 604800  # 7 days in seconds
+    #staleNodeInitialDelaySecs: 3600
+    #staleNodeIntervalSecs: 3600
+  ## Metrics Configuration
+  #metrics:
+    #enabled: false
+  ## Kubernetes Fetcher Configuration
+  #kubernetesFetcher:
+    #enabled: false
+    #cacheTimeoutSecs: 120
+    #clientTimeoutSecs: 10
+  ## Logging Request Filter Configuration
+  #logging:
+    #requestFilter:
+      #enabled: false
+      #http:
+        #ignorePaths: ""
+        #ignoreStatusCodes: ""
+        #ignoreDurationThresholdMillis: 100
+      #grpc:
+        #ignorePaths: ""
+        #ignoreStatusCodes: ""
+        #ignoreDurationThresholdMillis: 100
 
 ## JFCONFIG TEMPLATE
 jfconfig:
