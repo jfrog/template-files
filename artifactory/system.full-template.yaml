@@ -296,6 +296,13 @@ artifactory:
           ## If set to false, the metrics line-endings will always follow unix style
           #platformDependant: true
 
+## JFBus TEMPLATE
+jfbus:
+  enabled: false
+
+## PFED TEMPLATE
+platformFederation:
+  enabled: false
 
 ## ACCESS TEMPLATE
 access:
