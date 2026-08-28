@@ -14,7 +14,7 @@ configVersion: 1
 ## SHARED CONFIGURATIONS
 ## A shared section for keys across all services in this config
 shared:
-  ## Java 25 distribution to use
+  ## Java 21 distribution to use
   #javaHome: "JFROG_HOME/artifactory/app/third-party/java"
 
   ## Extra Java options to pass to the JVM. These values add to or override the defaults.
@@ -295,10 +295,6 @@ apptrust:
 unifiedpolicy:
   enabled: false
 
-## EVALUATION TEMPLATE
-evaluation:
-  enabled: false
-
 ## ACCESS TEMPLATE
 access:
   ## http port
@@ -492,129 +488,6 @@ jfconnect:
   
   ## Service grpc port
   #grpcPort: 8035
-
-## JFMELT TEMPLATE
-jfmelt:
-  enabled: true
-
-  ## Profiling related settings
-  profiling:
-    ## Enable profiling endpoints
-    #enabled: false
-
-  ## HTTP listen port
-  #httpPort: 8032
-  ## gRPC listen port
-  #grpcPort: 8038
-
-  ## Access client communication settings
-  accessClient:
-    #joinTimeoutMins: 5
-    #pingTimeoutMins: 5
-    tokenCache:
-      ## Access client token timeout in seconds
-      #timeoutSecs: 60
-
-  ## Metrics related settings
-  metrics:
-    #enabled: false
-    #exclude: ""
-    ## Metrics collection interval (seconds)
-    #intervalSecs: 10
-
-    ## Token verification tuning for metrics
-    tokenVerification:
-      #accessUrl: ''
-      #revocableExpiryThresholdSeconds: -1
-      #retryBackoffInitialIntervalMillis: 500
-      #retryBackoffMaxIntervalMillis: 3600000
-      #retryBackoffMaxElapsedTimeMillis: 0
-
-  ## Logging settings
-  logging:
-    ## Main log settings
-    application:
-      ## The log file path, relative to the log directory, or absolute path
-      #filePath: "jfmelt-service.log"
-      ## The log level: error, warning, info, debug, trace (configurable at runtime)
-      #level: "info"
-      ## The log format: jftext, json
-      #format: "jftext"
-      ## Whether to include the caller information (runtime frame)
-      #caller: false
-      ## Whether to print the log also to stdout
-      #console: true
-      ## Log rotation settings
-      rotation:
-        #compress: true
-        #keepLastDecompressed: 1
-        #maxSizeMb: 25
-        #maxAgeDays: 365
-        #maxFiles: 10
-
-    ## Request log settings
-    request:
-      ## The log file path, relative to the log directory, or absolute path
-      #filePath: "jfmelt-request.log"
-      ## Whether to print the log also to stdout
-      #console: false
-      ## Log rotation settings
-      rotation:
-        #compress: true
-        #keepLastDecompressed: 1
-        #maxSizeMb: 25
-        #maxAgeDays: 365
-        #maxFiles: 10
-
-    ## Outgoing request log settings
-    requestOut:
-      ## The log file path, relative to the log directory, or absolute path
-      #filePath: "jfmelt-request-out.log"
-      ## Whether to print the log also to stdout
-      #console: false
-      ## Log rotation settings
-      rotation:
-        #compress: true
-        #keepLastDecompressed: 1
-        #maxSizeMb: 25
-        #maxAgeDays: 365
-        #maxFiles: 10
-
-    ## Metrics log settings
-    metrics:
-      ## The log file path, relative to the log directory, or absolute path
-      #filePath: "jfmelt-metrics.log"
-      ## Whether to print the log also to stdout
-      #console: false
-      ## Log rotation settings
-      rotation:
-        #compress: true
-        #keepLastDecompressed: 1
-        #maxSizeMb: 25
-        #maxAgeDays: 365
-        #maxFiles: 10
-
-  supportBundle:
-    ## Maximum time (minutes) for support bundle aggregation
-    #aggregationTimeoutMins: 60
-
-  entitlements:
-    #enforcementAlwaysOff: true
-    request:
-      #timeoutSecs: 30
-
-  usage:
-    #enabled: true
-
-  myJfrogSso:
-    #enabled: false
-    request:
-      #timeoutSecs: 30
-
-  apiKeyUsage:
-    request:
-      #timeoutSecs: 120
-    #usersDataExpiryMins: 240
 
 ## MISSION CONTROL TEMPLATE
 mc:
@@ -1147,28 +1020,18 @@ onemodel:
     #scheduledTaskDelaySecs: 30
     #historyRetention:
       #maxArchives: 20
-  #cosmo:
-    #router:
-      #introspectionEnabled: false
-      #metrics:
-        #enabled: false
-        #port: 8074
-        #schemaUsage:
-          #enabled: false
-      #port: 8073
-      #subgraphRequestTimeoutSecs: 180
   #graphql:
+    #compatibilityFilterEnabled: true
     #queryCacheSize: 5
     #queryParserTokenLimit: 50
+    #apolloRouterPort: 8073
   #grpcPort: 8072
   #healthCheck:
     #intervalSecs: 15
-  #listenAddr: localhost
+    #apolloHealthCheckPort: 8074
   #logging:
     #application:
-      #caller: false
       #console: true
-      #filePath: onemodel-service.log
       #format: jftext
       #level: info
       #rotation:
@@ -1182,7 +1045,6 @@ onemodel:
       #format: jftext
     #metrics:
       #console: false
-      #filePath: onemodel-metrics.log
       #rotation:
         #compress: true
         #keepLastDecompressed: 1
@@ -1192,17 +1054,6 @@ onemodel:
         #intervalSecs: 86400
     #request:
       #console: false
-      #filePath: onemodel-request.log
-      #rotation:
-        #compress: true
-        #keepLastDecompressed: 1
-        #maxAgeDays: 365
-        #maxFiles: 10
-        #maxSizeMb: 25
-        #intervalSecs: 86400
-    #requestOut:
-      #console: false
-      #filePath: onemodel-request-out.log
       #rotation:
         #compress: true
         #keepLastDecompressed: 1
@@ -1215,13 +1066,6 @@ onemodel:
     #serviceBundleAggregationTimeoutMillis: 300000
   #metrics:
     #enabled: false
-    #exclude:
-    #intervalMillis: 10000
-    #logPeriodically: true
-    #triggers:
-      #enabled: true
-      #intervalMillis: 20000
-      #limit: 1000000
   #port: 8071
   #probes:
     #liveness:
@@ -1231,6 +1075,8 @@ onemodel:
   #storage:
     #maxRecordsPerOwner: 10
     #supergraphsRetentionDays: 365
+  ## To update any settings for apollo router configuration
+  #apolloYaml:
 
 ## TOPOLOGY TEMPLATE
 topology:
@@ -1397,123 +1243,3 @@ jfconfig:
         #ignorePaths: ""
         #ignoreStatusCodes: ""
         #ignoreDurationThresholdMillis: 100
-
-## GRID TEMPLATE
-grid:
-  ## Enable the Grid service (self-hosted opt-in)
-  enabled: false
-
-  ## HTTP listen port
-  #port: 8022
-
-  ## Interface the HTTP server binds to
-  #httpBindInterface: localhost
-
-  ## Profiling Configuration
-  #profiling:
-    ## Enable pprof profiling endpoints
-    #enabled: false
-
-  ## Access Client Configuration
-  #accessClient:
-    ## Timeout for joining Access (milliseconds)
-    #joinTimeoutMillis: 120000
-    ## Timeout for pinging Access (milliseconds)
-    #pingTimeoutMillis: 300000
-
-  ## Access token validation cache
-  #tokenCache:
-    #timeoutMillis: 60000
-
-  ## Metrics Configuration
-  #metrics:
-    ## If enabled is true, metrics will be collected and written to the grid-metrics log
-    #enabled: false
-    ## Metrics collection interval (milliseconds)
-    #intervalMillis: 10000
-    ## Metric names to exclude from collection
-    #exclude: ""
-
-  ## Support Bundle Configuration
-  #supportBundle:
-    ## Support bundle aggregation timeout (milliseconds)
-    #aggregationTimeoutMillis: 3600000
-
-  ## Master Token Refresh job
-  #jobScheduler:
-    #masterTokenRefresh:
-      #enabled: true
-      ## Interval between refresh runs
-      #interval: 24h
-      ## Refresh when token expiry is within this threshold
-      #expiryThreshold: 720h
-      #maxConcurrentJobs: 10
-
-  ## JFConnect client timeouts
-  #jfConnect:
-    #establishConnectionTimeout: 3s
-    #retryConnectionInterval: 1s
-    #requestTimeout: 30s
-    #tokenExpiry: 24h
-    #fetchInterval: 30s
-
-  ## Trace ID source: auto, jaeger, opentelemetry
-  #tracing:
-    #traceIdSource: auto
-
-  ## Grid to Platform Federation client dial settings
-  #pfed:
-    ## gRPC port; 0 = use router.entrypoints.internalPort (8046)
-    #grpcPort: 0
-    ## gRPC host; empty = client default (localhost)
-    #grpcHost: ""
-
-  ## Tenant readiness check timeout (seconds)
-  #tenantReadiness:
-    #timeoutSecs: 10
-
-  ## Topology operation timeouts
-  #topology:
-    #healthCheckTimeout: 30s
-    #stagesFetchTimeout: 30s
-    #repoSyncTimeout: 2m
-    #teardownTimeout: 1m
-    #phasedFullSync:
-      #pollInterval: 3s
-      #pollTimeout: 2h
-      #pfedTimeout: 2h
-      #pfedLastPhaseTimeout: 2h
-      #preSyncDelay: 5s
-
-  ## JFBus repo-activation publishing
-  #jfbus:
-    #enabled: true
-    ## Messages per publish batch
-    #batchSize: 100
-
-  ## OneModel GraphQL settings (multi-tenant)
-  #onemodel:
-    #graphql:
-      #compatibilityFilterEnabled: true
-      #queryCacheSize: 5
-      #queryParserTokenLimit: 10000
-
-  ## Logging Configuration
-  #logging:
-    #application:
-      ## The log level: error, warning, info, debug, trace (configurable at runtime)
-      #level: info
-      ## The log format: jftext, json
-      #format: jftext
-      ## Whether to print the log also to stdout
-      #console: true
-      ## Log rotation settings
-      #rotation:
-        #maxSizeMb: 25
-        #maxAgeDays: 365
-        #maxFiles: 10
-        #compress: true
-    #request:
-      #console: false
-    #metrics:
-      #console: false
