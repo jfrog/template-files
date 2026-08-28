@@ -65,7 +65,3 @@ shared:
 access:
   ## Extra Java options to pass to the JVM. These values add to or override the defaults.
     #extraJavaOpts: "-XX:InitialRAMPercentage=20 -XX:MaxRAMPercentage=25"
-
-## JFCONNECT TEMPLATE
-jfconnect:
-  enabled: true
